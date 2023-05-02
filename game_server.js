@@ -9,7 +9,7 @@ const server = http.createServer(app);
 let currCircle = null;
 let timer = 60;
 let rooms = {};
-const port = process.env.PORT || "8080";
+const port = 8080;
 let score = 0;
 
 //set up socket.io server with localhost:3000 and allow cors
@@ -19,6 +19,8 @@ const io = new Server(server, {
     methods: ["GET", "POST"],
   },
 });
+
+console.log("starting server...");
 
 //generate a circle with random x and y coordinates
 //then send to the client
@@ -167,5 +169,5 @@ io.on("connection", (socket) => {
 });
 
 server.listen(port, () => {
-  console.log(`listening on ${port}`);
+  console.log(`pen listening on ${port}`);
 });
