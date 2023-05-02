@@ -9,7 +9,7 @@ const server = http.createServer(app);
 let currCircle = null;
 let timer = 60;
 let rooms = {};
-const port = process.env.PORT || 8080;
+const port = 8080;
 let score = 0;
 
 //set up socket.io server with localhost:3000 and allow cors
