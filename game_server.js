@@ -15,7 +15,7 @@ let score = 0;
 //set up socket.io server with localhost:3000 and allow cors
 const io = new Server(server, {
   cors: {
-    origin: "https://pen-experiment-tlin41390.vercel.app",
+    origin: "https://pen-experiment-tlin41390.vercel.app/game",
     methods: ["GET", "POST"],
   },
 });
