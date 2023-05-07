@@ -8,6 +8,7 @@ const cors = require("cors");
 app.use(cors());
 settings_app.use(cors());
 const server = http.createServer(app);
+const server2 = http.createServer(settings_app);
 let currCircle = null;
 let timer = 60;
 let rooms = {};
@@ -22,7 +23,7 @@ const io = new Server(server, {
   },
 });
 
-const settings_io = new Server(settings_app, {
+const settings_io = new Server(server2, {
   cors: {
     origin: "http://localhost:3000",
     methods: ["GET", "POST"],
@@ -179,4 +180,8 @@ io.on("connection", (socket) => {
 
 server.listen(port, () => {
   console.log(`pen listening on ${port}`);
+});
+
+server2.listen(3001, () => {
+  console.log(`settings listening on 3001`);
 });
