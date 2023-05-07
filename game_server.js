@@ -1,10 +1,12 @@
 const express = require('express');
 const app = express();
+const settings_app = express();
 const http = require("http");
 const { Server } = require('socket.io');
 const cors = require("cors");
 
 app.use(cors());
+settings_app.use(cors());
 const server = http.createServer(app);
 let currCircle = null;
 let timer = 60;
@@ -16,6 +18,13 @@ let score = 0;
 const io = new Server(server, {
   cors: {
     origin: "https://pen-experiment-tlin41390.vercel.app",
+    methods: ["GET", "POST"],
+  },
+});
+
+const settings_io = new Server(settings_app, {
+  cors: {
+    origin: "http://localhost:3000",
     methods: ["GET", "POST"],
   },
 });
