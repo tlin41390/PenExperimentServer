@@ -51,6 +51,18 @@ io.on("connection", (socket) => {
   socket.on("test", () => {
     console.log("test");
   });
+
+  socket.on("enable_give", (data) => {
+    console.log(data);
+  })
+
+  socket.on("enable_take", (data) => {
+    console.log(data);
+  })
+
+  socket.on("enable_request", (data) => {
+    console.log(data);
+  })
   let availablerooms = null;
   io.sockets.adapter.rooms.forEach((room, roomId) => {
     if (roomId.startsWith("room-") && room.size < 2) {
@@ -111,7 +123,6 @@ io.on("connection", (socket) => {
     }
 
   }
-
 
   //when the circle is clicked, update the score and generate a new circle
   socket.on("circle_clicked", (time) => {
