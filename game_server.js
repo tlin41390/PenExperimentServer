@@ -75,6 +75,18 @@ io.on("connection", (socket) => {
       socket.join(availablerooms);
     }
   
+    //check if the settings for the buttons are enabled
+    socket.on("enable_give", (data) => {
+      io.to(availablerooms).emit("enable_give", data);
+    });
+
+    socket.on("enable_take", (data) => {
+      io.to(availablerooms).emit("enable_take", data);
+    });
+
+    socket.on("enable_request", (data) => {
+      io.to(availablerooms).emit("enable_request", data);
+    });
 
     //create a new room object with the players
     const room = {
