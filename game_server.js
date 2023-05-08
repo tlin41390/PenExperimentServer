@@ -119,6 +119,7 @@ io.on("connection", (socket) => {
         }
       });
       io.to(availablerooms).emit("start_game", true);
+      io.emit("get_room", availablerooms);
     }
   }
 
