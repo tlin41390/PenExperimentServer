@@ -8,25 +8,20 @@ const cors = require("cors");
 app.use(cors());
 settings_app.use(cors());
 const server = http.createServer(app);
-const server2 = http.createServer(settings_app);
 let currCircle = null;
 let timer = 60;
 let rooms = {};
 const port = process.env.PORT;
-const port2 = 5000;
 let score = 0;
+
+app.get('/settings', (req, res) => {
+  res.send('Hello World!');
+})
 
 //set up socket.io server with localhost:3000 and allow cors
 const io = new Server(server, {
   cors: {
     origin: "https://pen-experiment-tlin41390.vercel.app",
-    methods: ["GET", "POST"],
-  },
-});
-
-const settings_io = new Server(server2, {
-  cors: {
-    origin: "http://localhost:3000",
     methods: ["GET", "POST"],
   },
 });
