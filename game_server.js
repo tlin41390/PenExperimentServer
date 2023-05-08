@@ -38,9 +38,6 @@ const generateCircle = (room) => {
 };
 
 //set up socket.io connection with client side 
-app.use('/game', (req,res,next) => {
-
-
 io.on("connection", (socket) => {
   //make a player object for each users
   const player = {
@@ -183,7 +180,6 @@ io.on("connection", (socket) => {
   if (numClients === 2 && !rooms[availablerooms].timerStarted) {
     rooms[availablerooms].timerStarted = true;
   }
-});
 });
 
 server.listen(port, () => {
