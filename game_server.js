@@ -15,7 +15,7 @@ let score = 0;
 //set up socket.io server with localhost:3000 and allow cors
 const io = new Server(server, {
   cors: {
-    origin: ["https://pen-experiment-tlin41390.vercel.app","http://localhost:3000"],
+    origin: ["https://pen-experiment-tlin41390.vercel.app", "http://localhost:3000"],
     methods: ["GET", "POST"],
   },
 });
@@ -50,7 +50,7 @@ io.on("connection", (socket) => {
   };
   socket.on("abc", (data) => {
     console.log(data);
-    });
+  });
 
   let availablerooms = null;
   io.sockets.adapter.rooms.forEach((room, roomId) => {
@@ -61,40 +61,28 @@ io.on("connection", (socket) => {
 
   socket.on("abc", (data) => {
     console.log(data);
-    });
+  });
 
   io.to(availablerooms).emit("initial_score", score);
 
   //if there is no available room, create a new room and join it 
   if (!availablerooms) {
-    availablerooms = `room-${Date.now()}`;
     //check to see if the socket has the origin: "https://pen-experiment-tlin41390.vercel.app"
     //if so, join the room
     //if not, do not join the room
     if (socket.handshake.headers.origin === "https://pen-experiment-tlin41390.vercel.app") {
+      availablerooms = `room-${Date.now()}`;
       socket.join(availablerooms);
+      //create a new room object with the players
+      const room = {
+        room_id: availablerooms,
+        players: [],
+      };
+      room.players.push(player);
+      rooms[availablerooms] = room;
     }
-  
-    //check if the settings for the buttons are enabled
-    socket.on("enable_give", (data) => {
-      io.to(availablerooms).emit("enable_give", data);
-    });
 
-    socket.on("enable_take", (data) => {
-      io.to(availablerooms).emit("enable_take", data);
-    });
 
-    socket.on("enable_request", (data) => {
-      io.to(availablerooms).emit("enable_request", data);
-    });
-
-    //create a new room object with the players
-    const room = {
-      room_id: availablerooms,
-      players: [],
-    };
-    room.players.push(player);
-    rooms[availablerooms] = room;
   } else {
     socket.join(availablerooms);
     rooms[availablerooms].players.push(player);
@@ -108,6 +96,19 @@ io.on("connection", (socket) => {
     });
     io.to(availablerooms).emit("start_game", true);
   }
+
+  //check if the settings for the buttons are enabled
+  socket.on("enable_give", (data) => {
+    io.to(availablerooms).emit("enable_give", data);
+  });
+
+  socket.on("enable_take", (data) => {
+    io.to(availablerooms).emit("enable_take", data);
+  });
+
+  socket.on("enable_request", (data) => {
+    io.to(availablerooms).emit("enable_request", data);
+  });
 
   socket.emit("room_id", availablerooms, socket.id);
 
