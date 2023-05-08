@@ -12,10 +12,6 @@ let rooms = {};
 const port = process.env.PORT;
 let score = 0;
 
-app.get('/settings', (req, res) => {
-  res.send('Hello World!');
-})
-
 //set up socket.io server with localhost:3000 and allow cors
 const io = new Server(server, {
   cors: {
@@ -52,6 +48,9 @@ io.on("connection", (socket) => {
     timestamps: []
   };
 
+  socket.on("test", () => {
+    console.log("test");
+  });
   let availablerooms = null;
   io.sockets.adapter.rooms.forEach((room, roomId) => {
     if (roomId.startsWith("room-") && room.size < 2) {
