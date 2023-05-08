@@ -12,6 +12,10 @@ let rooms = {};
 const port = process.env.PORT;
 let score = 0;
 
+let setGive=  true;
+let setTake = true;
+let setRequest = true;
+
 //set up socket.io server with localhost:3000 and allow cors
 const io = new Server(server, {
   cors: {
@@ -39,16 +43,20 @@ const generateCircle = (room) => {
 //set up socket.io connection with client side 
 io.on("connection", (socket) => {
   socket.on("enable_give", (data) => {
-    io.emit("send_give", data);
+    setGive = data;
   });
 
   socket.on("enable_take", (data) => {
-    io.emit("send_take", data);
+    setTake = data;
   });
 
   socket.on("enable_request", (data) => {
-    io.emit("send_request", data);
+    setRequest = data;
   });
+
+  io.emit("send_give", setGive);
+  io.emit("send_take", setTake);
+  io.emit("send_request", setRequest);
   //make a player object for each users
   const player = {
     id: socket.id,
