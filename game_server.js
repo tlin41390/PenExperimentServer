@@ -24,7 +24,7 @@ const io = new Server(server, {
   },
 });
 
-const settings_io = new Server(server, {
+const settings_io = new Server(server2, {
   cors: {
     origin: "http://localhost:3000",
     methods: ["GET", "POST"],
