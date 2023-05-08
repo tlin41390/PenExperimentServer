@@ -20,12 +20,12 @@ const io = new Server(server, {
   },
 });
 
-const settings_io = new Server(server, {
-  cors: {
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"],
-  },
-});
+// const settings_io = new Server(server, {
+//   cors: {
+//     origin: "http://localhost:3000",
+//     methods: ["GET", "POST"],
+//   },
+// });
 
 console.log("starting server...");
 
@@ -43,16 +43,16 @@ const generateCircle = (room) => {
 
 };
 
-settings_io.on("connection", (socket) => {
-  console.log(`User connected: ${socket.id}`);
-  socket.on("test", (data) => {
-    console.log(data);
-  });
+// settings_io.on("connection", (socket) => {
+//   console.log(`User connected: ${socket.id}`);
+//   socket.on("test", (data) => {
+//     console.log(data);
+//   });
 
-  socket.on("disconnect", () => {
-    console.log(`User disconnected: ${socket.id}`);
-  });
-});
+//   socket.on("disconnect", () => {
+//     console.log(`User disconnected: ${socket.id}`);
+//   });
+// });
 
 //set up socket.io connection with client side 
 io.on("connection", (socket) => {
