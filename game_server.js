@@ -24,7 +24,7 @@ const io = new Server(server, {
   },
 });
 
-const settings_io = new Server(server2, {
+const settings_io = new Server(server, {
   cors: {
     origin: "http://localhost:3000",
     methods: ["GET", "POST"],
@@ -192,8 +192,4 @@ io.on("connection", (socket) => {
 
 server.listen(port, () => {
   console.log(`pen listening on ${port}`);
-});
-
-server2.listen(3000, () => {
-  console.log(`settings listening on 3000`);
 });
