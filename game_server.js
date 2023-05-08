@@ -13,7 +13,7 @@ let currCircle = null;
 let timer = 60;
 let rooms = {};
 const port = process.env.PORT;
-const port2 = process.env.PORT2;
+const port2 = process.env.PORT;
 let score = 0;
 
 //set up socket.io server with localhost:3000 and allow cors
