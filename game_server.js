@@ -84,17 +84,17 @@ io.on("connection", (socket) => {
 
 
   } else {
-    socket.join(availablerooms);
+    if(socket.handshake.headers.origin === "https://pen-experiment-tlin41390.vercel.app"){
+      socket.join(availablerooms);
     rooms[availablerooms].players.push(player);
-
-    // set opponent
+      // set opponent
     rooms[availablerooms].players.forEach((p) => {
       if (p.id !== player.id) {
         player.opponent = p.id;
         p.opponent = player.id;
-      }
-    });
-    io.to(availablerooms).emit("start_game", true);
+      }});
+      io.to(availablerooms).emit("start_game", true);
+    }
   }
 
   //check if the settings for the buttons are enabled
