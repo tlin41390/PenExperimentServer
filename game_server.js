@@ -1,19 +1,15 @@
 const express = require('express');
 const app = express();
-const settings_app = express();
 const http = require("http");
 const { Server } = require('socket.io');
 const cors = require("cors");
 
 app.use(cors());
-settings_app.use(cors());
 const server = http.createServer(app);
-const server2 = http.createServer(settings_app);
 let currCircle = null;
 let timer = 60;
 let rooms = {};
 const port = process.env.PORT;
-const port2 = process.env.PORT;
 let score = 0;
 
 //set up socket.io server with localhost:3000 and allow cors
