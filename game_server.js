@@ -13,6 +13,7 @@ let currCircle = null;
 let timer = 60;
 let rooms = {};
 const port = process.env.PORT;
+const port2 = process.env.PORT2;
 let score = 0;
 
 //set up socket.io server with localhost:3000 and allow cors
@@ -193,6 +194,6 @@ server.listen(port, () => {
   console.log(`pen listening on ${port}`);
 });
 
-server2.listen(3001, () => {
-  console.log(`settings listening on 3001`);
+server2.listen(port2, () => {
+  console.log(`settings listening on ${port2}`);
 });
