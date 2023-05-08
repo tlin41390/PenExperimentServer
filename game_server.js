@@ -20,7 +20,7 @@ const io = new Server(server, {
     methods: ["GET", "POST"],
   },
 });
-
+//abc
 console.log("starting server...");
 
 //generate a circle with random x and y coordinates
@@ -49,21 +49,6 @@ io.on("connection", (socket) => {
     timestamps: []
   };
 
-  // socket.on("test", () => {
-  //   console.log("test");
-  // });
-
-  // socket.on("enable_give", (data) => {
-  //   io.emit("enable_give", data);
-  // })
-
-  // socket.on("enable_take", (data) => {
-  //   io.emit("enable_take", data);
-  // })
-
-  // socket.on("enable_request", (data) => {
-  //   io.emit("enable_request", data);
-  // })
   let availablerooms = null;
   io.sockets.adapter.rooms.forEach((room, roomId) => {
     if (roomId.startsWith("room-") && room.size < 2) {
