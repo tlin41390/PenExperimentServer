@@ -43,6 +43,9 @@ const generateCircle = (room) => {
 
 //set up socket.io connection with client side 
 io.on("connection", (socket) => {
+  if(socket.handshake.headers.origin === "https://pen-experiment-tlin41390.vercel.app"){
+    console.log(`User connected: ${socket.id}`);
+  }
   socket.on("enable_give", (data) => {
     setGive = data;
   });
@@ -82,10 +85,6 @@ io.on("connection", (socket) => {
     if (roomId.startsWith("room-") && room.size < 2) {
       availablerooms = roomId;
     }
-  });
-
-  socket.on("abc", (data) => {
-    console.log(data);
   });
 
   io.to(availablerooms).emit("initial_score", score);
@@ -203,13 +202,16 @@ io.on("connection", (socket) => {
 
   //when the timer is up, send the score to the client side and reset the score to 0
   socket.on("disconnect", () => {
-    console.log(`User disconnected: ${socket.id}`);
-    if (io.sockets.adapter.rooms.get(availablerooms) == null) {
-      console.log(`Room ${availablerooms} is empty`);
-      io.of("/").adapter.rooms.delete(availablerooms);
-      clearInterval(timer);
+    if (socket.handshake.headers.origin === "https://pen-experiment-tlin41390.vercel.app") {
+      console.log(`User disconnected: ${socket.id}`);
+      if (io.sockets.adapter.rooms.get(availablerooms) == null) {
+        console.log(`Room ${availablerooms} is empty`);
+        io.of("/").adapter.rooms.delete(availablerooms);
+        clearInterval(timer);
+      }
     }
   });
+
 
   if (numClients === 2 && !rooms[availablerooms].timerStarted) {
     rooms[availablerooms].timerStarted = true;
