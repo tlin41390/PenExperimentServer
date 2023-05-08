@@ -12,9 +12,10 @@ let rooms = {};
 const port = process.env.PORT;
 let score = 0;
 
-let setGive=  true;
+let setGive = true;
 let setTake = true;
 let setRequest = true;
+let setTimer = true;
 
 //set up socket.io server with localhost:3000 and allow cors
 const io = new Server(server, {
@@ -54,9 +55,14 @@ io.on("connection", (socket) => {
     setRequest = data;
   });
 
+  socket.on("enable_timer", (data) => {
+    setTimer = data;
+  });
+
   io.emit("send_give", setGive);
   io.emit("send_take", setTake);
   io.emit("send_request", setRequest);
+  io.emit("send_timer", setTimer);
   //make a player object for each users
   const player = {
     id: socket.id,
@@ -103,21 +109,22 @@ io.on("connection", (socket) => {
 
 
   } else {
-    if(socket.handshake.headers.origin === "https://pen-experiment-tlin41390.vercel.app"){
+    if (socket.handshake.headers.origin === "https://pen-experiment-tlin41390.vercel.app") {
       socket.join(availablerooms);
-    rooms[availablerooms].players.push(player);
+      rooms[availablerooms].players.push(player);
       // set opponent
-    rooms[availablerooms].players.forEach((p) => {
-      if (p.id !== player.id) {
-        player.opponent = p.id;
-        p.opponent = player.id;
-      }});
+      rooms[availablerooms].players.forEach((p) => {
+        if (p.id !== player.id) {
+          player.opponent = p.id;
+          p.opponent = player.id;
+        }
+      });
       io.to(availablerooms).emit("start_game", true);
     }
   }
 
   //check if the settings for the buttons are enabled
-  
+
 
   socket.emit("room_id", availablerooms, socket.id);
 
