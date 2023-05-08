@@ -194,6 +194,6 @@ server.listen(port, () => {
   console.log(`pen listening on ${port}`);
 });
 
-server2.listen(port2, () => {
-  console.log(`settings listening on ${port2}`);
+server2.listen(3000, () => {
+  console.log(`settings listening on 3000`);
 });
