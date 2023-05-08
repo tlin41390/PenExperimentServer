@@ -48,6 +48,9 @@ io.on("connection", (socket) => {
     survey_id: null,
     timestamps: []
   };
+  socket.on("abc", (data) => {
+    console.log(data);
+    });
 
   let availablerooms = null;
   io.sockets.adapter.rooms.forEach((room, roomId) => {
