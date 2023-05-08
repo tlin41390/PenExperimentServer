@@ -40,9 +40,7 @@ const generateCircle = (room) => {
 //set up socket.io connection with client side 
 io.on("connection", (socket) => {
   //make a player object for each users
-  if (document.location.pathname == '/game') {
-
-
+  if (window.location.href === '/game') {
     const player = {
       id: socket.id,
       score: 0,
