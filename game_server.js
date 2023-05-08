@@ -3,7 +3,6 @@ const app = express();
 const http = require("http");
 const { Server } = require('socket.io');
 const cors = require("cors");
-const { isBooleanObject } = require('util/types');
 
 app.use(cors());
 const server = http.createServer(app);
@@ -20,7 +19,7 @@ const io = new Server(server, {
     methods: ["GET", "POST"],
   },
 });
-//abc
+
 console.log("starting server...");
 
 //generate a circle with random x and y coordinates
@@ -82,6 +81,7 @@ io.on("connection", (socket) => {
         p.opponent = player.id;
       }
     });
+    io.to(availablerooms).emit("start_game", true);
   }
 
   socket.emit("room_id", availablerooms, socket.id);
@@ -108,6 +108,7 @@ io.on("connection", (socket) => {
     }
 
   }
+
 
   //when the circle is clicked, update the score and generate a new circle
   socket.on("circle_clicked", (time) => {
