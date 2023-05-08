@@ -46,6 +46,17 @@ const generateCircle = (room) => {
 
 };
 
+settings_io.on("connection", (socket) => {
+  console.log(`User connected: ${socket.id}`);
+  socket.on("test", (data) => {
+    console.log(data);
+  });
+
+  socket.on("disconnect", () => {
+    console.log(`User disconnected: ${socket.id}`);
+  });
+});
+
 //set up socket.io connection with client side 
 io.on("connection", (socket) => {
   //make a player object for each users
