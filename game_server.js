@@ -3,6 +3,7 @@ const app = express();
 const http = require("http");
 const { Server } = require('socket.io');
 const cors = require("cors");
+const { isBooleanObject } = require('util/types');
 
 app.use(cors());
 const server = http.createServer(app);
@@ -53,15 +54,15 @@ io.on("connection", (socket) => {
   });
 
   socket.on("enable_give", (data) => {
-    console.log(data);
+    io.emit("enable_give", data);
   })
 
   socket.on("enable_take", (data) => {
-    console.log(data);
+    io.emit("enable_take", data);
   })
 
   socket.on("enable_request", (data) => {
-    console.log(data);
+    io.emit("enable_request", data);
   })
   let availablerooms = null;
   io.sockets.adapter.rooms.forEach((room, roomId) => {
