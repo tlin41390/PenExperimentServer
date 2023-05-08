@@ -45,6 +45,7 @@ io.on("connection", (socket) => {
     give: 0,
     take: 0,
     request: 0,
+    survey_id: null,
     timestamps: []
   };
 
@@ -152,6 +153,12 @@ io.on("connection", (socket) => {
     );
     io.to(opponent.id).emit("can_click", false);
   })
+
+  socket.on("submit_survey", (survey) => {
+    player.survey_id = survey;
+    console.log(player.survey_id);
+  });
+
 
   //when the timer is up, send the score to the client side and reset the score to 0
   socket.on("disconnect", () => {
