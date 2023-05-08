@@ -38,6 +38,17 @@ const generateCircle = (room) => {
 
 //set up socket.io connection with client side 
 io.on("connection", (socket) => {
+  socket.on("enable_give", (data) => {
+    io.to(availablerooms).emit("send_give", data);
+  });
+
+  socket.on("enable_take", (data) => {
+    io.to(availablerooms).emit("send_take", data);
+  });
+
+  socket.on("enable_request", (data) => {
+    io.to(availablerooms).emit("send_request", data);
+  });
   //make a player object for each users
   const player = {
     id: socket.id,
@@ -98,17 +109,7 @@ io.on("connection", (socket) => {
   }
 
   //check if the settings for the buttons are enabled
-  socket.on("enable_give", (data) => {
-    io.to(availablerooms).emit("send_give", data);
-  });
-
-  socket.on("enable_take", (data) => {
-    io.to(availablerooms).emit("send_take", data);
-  });
-
-  socket.on("enable_request", (data) => {
-    io.to(availablerooms).emit("send_request", data);
-  });
+  
 
   socket.emit("room_id", availablerooms, socket.id);
 
