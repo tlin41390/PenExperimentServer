@@ -68,7 +68,13 @@ io.on("connection", (socket) => {
   //if there is no available room, create a new room and join it 
   if (!availablerooms) {
     availablerooms = `room-${Date.now()}`;
-    socket.join(availablerooms);
+    //check to see if the socket has the origin: "https://pen-experiment-tlin41390.vercel.app"
+    //if so, join the room
+    //if not, do not join the room
+    if (socket.handshake.headers.origin === "https://pen-experiment-tlin41390.vercel.app") {
+      socket.join(availablerooms);
+    }
+  
 
     //create a new room object with the players
     const room = {
