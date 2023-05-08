@@ -1,12 +1,10 @@
 const express = require('express');
 const app = express();
-const settings_app = express();
 const http = require("http");
 const { Server } = require('socket.io');
 const cors = require("cors");
 
 app.use(cors());
-settings_app.use(cors());
 const server = http.createServer(app);
 let currCircle = null;
 let timer = 60;
@@ -41,17 +39,6 @@ const generateCircle = (room) => {
   io.to(room).emit("current_circle", currCircle);
 
 };
-
-settings_io.on("connection", (socket) => {
-  console.log(`User connected: ${socket.id}`);
-  socket.on("test", (data) => {
-    console.log(data);
-  });
-
-  socket.on("disconnect", () => {
-    console.log(`User disconnected: ${socket.id}`);
-  });
-});
 
 //set up socket.io connection with client side 
 io.on("connection", (socket) => {
