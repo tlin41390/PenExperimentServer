@@ -38,6 +38,9 @@ const generateCircle = (room) => {
 };
 
 //set up socket.io connection with client side 
+app.use('/game', (req,res,next) => {
+
+
 io.on("connection", (socket) => {
   //make a player object for each users
   const player = {
@@ -49,21 +52,21 @@ io.on("connection", (socket) => {
     timestamps: []
   };
 
-  socket.on("test", () => {
-    console.log("test");
-  });
+  // socket.on("test", () => {
+  //   console.log("test");
+  // });
 
-  socket.on("enable_give", (data) => {
-    io.emit("enable_give", data);
-  })
+  // socket.on("enable_give", (data) => {
+  //   io.emit("enable_give", data);
+  // })
 
-  socket.on("enable_take", (data) => {
-    io.emit("enable_take", data);
-  })
+  // socket.on("enable_take", (data) => {
+  //   io.emit("enable_take", data);
+  // })
 
-  socket.on("enable_request", (data) => {
-    io.emit("enable_request", data);
-  })
+  // socket.on("enable_request", (data) => {
+  //   io.emit("enable_request", data);
+  // })
   let availablerooms = null;
   io.sockets.adapter.rooms.forEach((room, roomId) => {
     if (roomId.startsWith("room-") && room.size < 2) {
@@ -97,7 +100,6 @@ io.on("connection", (socket) => {
         p.opponent = player.id;
       }
     });
-    io.to(availablerooms).emit("start_game", true);
   }
 
   socket.emit("room_id", availablerooms, socket.id);
@@ -181,6 +183,7 @@ io.on("connection", (socket) => {
   if (numClients === 2 && !rooms[availablerooms].timerStarted) {
     rooms[availablerooms].timerStarted = true;
   }
+});
 });
 
 server.listen(port, () => {
