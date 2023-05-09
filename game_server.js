@@ -3,6 +3,10 @@ const app = express();
 const http = require("http");
 const { Server } = require('socket.io');
 const cors = require("cors");
+const { createClient } = require('@supabase/supabase-js'); //imports supabase libraries to get and receive data
+const sbURL = 'https://xjpvvjxoyqhwdfqjsflk.supabase.co';
+const sbKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhqcHZ2anhveXFod2RmcWpzZmxrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY4MTQ0ODI1MCwiZXhwIjoxOTk3MDI0MjUwfQ.QEh_IRx17HaP4ET1ZwEzWFKKfEHAea7giF_17LZxIXU';
+const supabase = createClient(sbURL, sbKey);
 
 app.use(cors());
 const server = http.createServer(app);
@@ -40,6 +44,20 @@ const generateCircle = (room) => {
   io.to(room).emit("current_circle", currCircle);
 
 };
+
+//Function to send game data to supabase
+async function updateIDItems(player_info) {
+  var stats = [];
+  var place = Number(player_info.survey_id);
+  stats.push(player_info);
+  var jsonifiy = JSON.stringify(stats);
+  const { data, error} = await supabase.from('Game_Data').update({game_data: jsonifiy}).eq('id',place);
+  if (error) {
+    console.error(error);
+  } else {
+    //console.log("Survey Id info has been updated");
+  }
+}
 
 //set up socket.io connection with client side 
 io.on("connection", (socket) => {
@@ -207,6 +225,7 @@ io.on("connection", (socket) => {
   socket.on("submit_survey", (survey) => {
     player.survey_id = survey;
     console.log(player.survey_id);
+    updateIDItems(player);
   });
 
 
