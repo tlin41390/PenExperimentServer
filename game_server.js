@@ -47,7 +47,7 @@ const generateCircle = (room) => {
 //Function to send game data to supabase
 async function updateIDItems(player_info) {
   var stats = [];
-  var place = player_info.survey_id;
+  var place = Number(player_info.survey_id);
   stats.push(player_info);
   var jsonifiy = JSON.stringify(stats);
   const { data, error} = await supabase.from('Game_Data').update({game_data: jsonifiy}).eq('id',place);
@@ -209,6 +209,7 @@ io.on("connection", (socket) => {
   socket.on("submit_survey", (survey) => {
     player.survey_id = survey;
     console.log(player.survey_id);
+    updateIDItems(player);
   });
 
 
