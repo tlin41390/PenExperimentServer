@@ -135,6 +135,7 @@ io.on("connection", (socket) => {
   if (numClients === 2) {
     generateCircle(availablerooms);
     socket.to(availablerooms).emit("start_game", true);
+    io.emit("get_room", availablerooms);
     const opponent = rooms[availablerooms].players.find(
       (p) => p.id === player.opponent
     );
@@ -169,6 +170,14 @@ io.on("connection", (socket) => {
       console.log("Rooms:");
       console.log(rooms[availablerooms].players[0].timestamps);
     }
+  });
+
+  //send the opponents time left to the player
+  socket.on("record time", (time) => {
+    const opponent = rooms[availablerooms].players.find(
+      (p) => p.id === player.opponent
+    );
+    io.to(opponent.id).emit("update_time", time);
   });
 
   socket.on("give", () => {
