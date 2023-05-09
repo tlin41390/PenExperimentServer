@@ -56,7 +56,7 @@ async function updateIDItems(player_info) {
   } else {
     //console.log("Survey Id info has been updated");
   }
-}
+};
 
 //set up socket.io connection with client side 
 io.on("connection", (socket) => {
