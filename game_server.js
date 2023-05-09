@@ -154,8 +154,7 @@ io.on("connection", (socket) => {
   if (numClients === 2) {
     generateCircle(availablerooms);
     socket.to(availablerooms).emit("start_game", true);
-    io.emit("get_room", availablerooms);
-    io.emit("init_game", 60, availablerooms);
+    io.emit("get_room", availablerooms,timer);
     const opponent = rooms[availablerooms].players.find(
       (p) => p.id === player.opponent
     );
