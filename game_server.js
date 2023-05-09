@@ -176,6 +176,7 @@ io.on("connection", (socket) => {
     const opponent = rooms[availablerooms].players.find(
       (p) => p.id === player.opponent
     );
+    socket.emit("append_progess", roomID,time);
     io.to(opponent.id).emit("update_time", time);
   });
 
