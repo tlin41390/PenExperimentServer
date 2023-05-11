@@ -4,6 +4,7 @@ const http = require("http");
 const { Server } = require('socket.io');
 const cors = require("cors");
 const { createClient } = require('@supabase/supabase-js'); //imports supabase libraries to get and receive data
+const { parse } = require('path');
 const sbURL = 'https://xjpvvjxoyqhwdfqjsflk.supabase.co';
 const sbKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhqcHZ2anhveXFod2RmcWpzZmxrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY4MTQ0ODI1MCwiZXhwIjoxOTk3MDI0MjUwfQ.QEh_IRx17HaP4ET1ZwEzWFKKfEHAea7giF_17LZxIXU';
 const supabase = createClient(sbURL, sbKey);
@@ -97,7 +98,10 @@ io.on("connection", (socket) => {
     take: 0,
     request: 0,
     survey_id: null,
-    timestamps: []
+    timestamps: [],
+    give: [],
+    take: [],
+    request: [],
   };
 
 
@@ -197,28 +201,31 @@ io.on("connection", (socket) => {
     io.to(opponent.id).emit("update_time", time);
   });
 
-  socket.on("give", () => {
+  socket.on("give", (time) => {
     player.give++;
     const opponent = rooms[availablerooms].players.find(
       (p) => p.id === player.opponent
     );
     io.to(opponent.id).emit("can_click", true);
+    player.give.push(parseInt(time));
   })
 
-  socket.on("receive_request", () => {
+  socket.on("receive_request", (time) => {
     player.request++;
     const opponent = rooms[availablerooms].players.find(
       (p) => p.id === player.opponent
     );
     io.to(opponent.id).emit("receive_request");
+    player.request.push(parseInt(time));
   })
 
-  socket.on("take", () => {
+  socket.on("take", (time) => {
     player.take++;
     const opponent = rooms[availablerooms].players.find(
       (p) => p.id === player.opponent
     );
     io.to(opponent.id).emit("can_click", false);
+    player.take.push(parseInt(time));
   })
 
   socket.on("submit_survey", (survey) => {
